@@ -88,14 +88,14 @@ function checkAnswer() {
   }
 }
 
-
 // Function to end the quiz and show the final score
 function endQuiz() {
   clearInterval(intervalId);
   if( score < 3){
+    let message = document.getElementById("end-screen");
+    message.querySelector("h2").innerHTML ="Sorry. Try Again!";
     document.getElementById("questions").classList.add("hide");
     document.getElementById("end-screen").classList.remove("hide");
-    document.getElementById("end-screen").textContent="Sorry. Try Again!";
     document.getElementById("final-score").textContent = score;
   }else{  
   document.getElementById("questions").classList.add("hide");
