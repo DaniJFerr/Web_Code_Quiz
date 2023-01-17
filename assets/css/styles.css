@@ -72,6 +72,15 @@ li:nth-child(odd) {
   left: 10px;
 }
 
+.message{
+  width: 600px;
+  border-top: 1px solid #7c7a7a;
+  padding-top: 10px;
+  justify-content: flex-start;
+  font-size: 2rem;
+  color: #7c7a7a;
+}
+
 .feedback {
   font-style: italic;
   font-size: 120%;

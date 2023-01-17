@@ -1,5 +1,5 @@
 // Quiz questions and answers
-var questions = [
+let questions = [
   {
     text: "If you type the following code in the console window, what result will you get? 3>2>1 === false;",
     choices: ["True","false"],
@@ -34,11 +34,11 @@ var questions = [
   // more questions here
 ];
 
-// Variables to keep track of the current question, score, and timer
-var currentQuestion = 0;
-var score = 0;
-var timer = 60;
-var intervalId;
+// letiables to keep track of the current question, score, and timer
+let currentQuestion = 0;
+let score = 0;
+let timer = 60;
+let intervalId;
 
 // Function to start the quiz
 function startQuiz() {
@@ -53,26 +53,32 @@ function startQuiz() {
 
 // Function to show the current question and its choices
 function showQuestion() {
-  var question = questions[currentQuestion];
+  let question = questions[currentQuestion];
   document.getElementById("question-title").textContent = question.text;
-  var choices = document.getElementById("choices");
+  let choices = document.getElementById("choices");
   choices.innerHTML = "";
-  for (var i = 0; i < question.choices.length; i++) {
-    var choice = document.createElement("button");
+  for (let  i = 0; i < question.choices.length; i++) {
+    let  choice = document.createElement("button");
     choice.textContent = question.choices[i];
     choice.addEventListener("click", checkAnswer);
     choices.appendChild(choice);
   }
 }
 
+
 // Function to check if the answer is correct and move to the next question
 function checkAnswer() {
+  let audio = new Audio();
   if (this.textContent === questions[currentQuestion].choices[questions[currentQuestion].correct]) {
- 
+    document.getElementById("message").innerHTML = "Correct!";
     score++;
+    audio.src = "./assets/sfx/correct.wav";
+    audio.play();
   } else {
-
+    document.getElementById("message").innerHTML = "Incorrect.";
     timer -= 10;
+    audio.src = "./assets/sfx/incorrect.wav";
+    audio.play();
   }
   currentQuestion++;
   if (currentQuestion === questions.length) {
@@ -82,30 +88,18 @@ function checkAnswer() {
   }
 }
 
-document.addEventListener("keypress", function(event) {
-  makeSound(event.key);
-  buttonAnimation(event.key);
-
-});
-function makeSound(key) {
-
-  switch (key) {
-    case "choices":
-      let tom1 = new Audio("./assets/sfx/correct.wav");
-      tom1.play();
-      break;
-  }
-}
 
 // Function to end the quiz and show the final score
 function endQuiz() {
   clearInterval(intervalId);
-  document.getElementById("questions").classList.add("hide");
-  document.getElementById("end-screen").classList.remove("hide");
   if( score < 3){
-    document.getElementById("end-screen").textContent =("h2","Sorry. Try Again!");
+    document.getElementById("questions").classList.add("hide");
+    document.getElementById("end-screen").classList.remove("hide");
+    document.getElementById("end-screen").textContent="Sorry. Try Again!";
     document.getElementById("final-score").textContent = score;
   }else{  
+  document.getElementById("questions").classList.add("hide");
+  document.getElementById("end-screen").classList.remove("hide");
   document.getElementById("final-score").textContent = score;
 }
 }
@@ -124,9 +118,9 @@ document.getElementById("start").addEventListener("click", startQuiz);
 
 // Event listener for the submit button
 document.getElementById("submit").addEventListener("click", function(){
-    var initials = document.getElementById("initials").value;
-    var finalScore = document.getElementById("final-score").textContent;
-    var data = {
+    let initials = document.getElementById("initials").value;
+    let finalScore = document.getElementById("final-score").textContent;
+    let data = {
         initial : initials
         ,
 score: finalScore
@@ -137,86 +131,4 @@ localStorage.setItem("score", JSON.stringify(data));
 window.location.href = "highscores.html";
 });
 
-// // Set up the game
-// let answer = [];
-// let CorrectAnswer = "javascript";
-// let wordArray = wordToGuess.split("");
-// let guessedWord = [];
-// for (let i = 0; i < wordArray.length; i++) {
-//   guessedWord[i] = "_";
-// }
-// let timer;
-// let timeLeft = 60;
-// let wins = 0;
-// let losses = 0;
-// document.getElementById("word").innerHTML = guessedWord.join(" ");
-
-// // Start the game
-// function startGame() {
-//   document.getElementById("start").style.display = "none";
-//   document.getElementById("guess").style.display = "inline-block";
-//   document.getElementById("submit").style.display = "inline-block";
-//   timer = setInterval(countdown, 1000);
-// }
-
-// // Check the player's guess
-// function checkGuess() {
-//   let guess = document.getElementById("guess").value;
-//   if (guess.length !== 1) {
-//     alert("Please enter a single letter.");
-//     return;
-//   }
-//   let correctGuess = false;
-//   for (let i = 0; i < wordArray.length; i++) {
-//     if (wordArray[i] === guess) {
-//       guessedWord[i] = guess;
-//       correctGuess = true;
-//     }
-//   }
-//   if (correctGuess) {
-//     document.getElementById("message").innerHTML = "Correct!";
-//   } else {
-//     document.getElementById("message").innerHTML = "Incorrect.";
-    
-//   }
-//   document.getElementById("word").innerHTML = guessedWord.join(" ");
-//   if (guessedWord.join("") === wordToGuess) {
-//     alert("You win!");
-//     clearInterval(timer);
-//     wins++;
-//     document.getElementById("win-Loss").innerHTML = "Wins: " + wins + " Losses: " + losses;
-//     resetGame();
-//     }
-//     }
-    
-//     // Countdown timer
-//     function countdown() {
-//     timeLeft--;
-//     document.getElementById("timer").innerHTML = "Time Left: " + timeLeft;
-//     if (timeLeft === 0) {
-//     alert("Time's up! You lose.");
-//     clearInterval(timer);
-//     losses++;
-//     document.getElementById("win-Loss").innerHTML = "Wins: " + wins + " Losses: " + losses;
-//     resetGame();
-//     }
-//     }
-    
-//     // Reset the game
-//     function resetGame() {
-//     wordToGuess = "javascript";
-//     wordArray = wordToGuess.split("");
-//     guessedWord = [];
-//     for (var i = 0; i < wordArray.length; i++) {
-//     guessedWord[i] = "_";
-//     }
-//     timeLeft = 60;
-//     document.getElementById("word").innerHTML = guessedWord.join(" ");
-//     document.getElementById("guess").value = "";
-//     document.getElementById("start").style.display = "inline-block";
-//     document.getElementById("guess").style.display = "none";
-//     document.getElementById("submit").style.display = "none";
-//     document.getElementById("message").innerHTML = "";
-//     }
-    
   
