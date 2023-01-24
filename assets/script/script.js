@@ -34,7 +34,7 @@ let questions = [
   // more questions here
 ];
 
-// letiables to keep track of the current question, score, and timer
+// variables to keep track of the current question, score, and timer
 let currentQuestion = 0;
 let score = 0;
 let timer = 60;
@@ -64,7 +64,6 @@ function showQuestion() {
     choices.appendChild(choice);
   }
 }
-
 
 // Function to check if the answer is correct and move to the next question
 function checkAnswer() {
@@ -101,8 +100,9 @@ function endQuiz() {
   document.getElementById("questions").classList.add("hide");
   document.getElementById("end-screen").classList.remove("hide");
   document.getElementById("final-score").textContent = score;
+ }
 }
-}
+// export {data};
 
 // Function to update the timer and end the quiz when it reaches 0
 function countdown() {
@@ -116,19 +116,34 @@ function countdown() {
 // Event listener for the start button
 document.getElementById("start").addEventListener("click", startQuiz);
 
+
 // Event listener for the submit button
 document.getElementById("submit").addEventListener("click", function(){
-    let initials = document.getElementById("initials").value;
-    let finalScore = document.getElementById("final-score").textContent;
+
+  let initials = document.getElementById("initials").value;
+  let finalScore = document.getElementById("final-score").textContent;
+  let Userdata = JSON.parse(localStorage.getItem("score"));
+
+    if (Userdata === null) {
+      Userdata = [];
+    }
     let data = {
-        initial : initials
-        ,
-score: finalScore
+      initial : initials 
+      ,
+      score: finalScore
 }
+
+if (data.initial === "") {
+ alert("Your initials cannot be blank");
+  return;
+}
+ 
+Userdata.push(data);
 //save the score to local storage
-localStorage.setItem("score", JSON.stringify(data));
-//redirect to highscores page
-window.location.href = "highscores.html";
+localStorage.setItem("score", JSON.stringify(Userdata));
+// //redirect to highscores page
+window.location.href = "./highscores.html";
 });
 
-  
+
+

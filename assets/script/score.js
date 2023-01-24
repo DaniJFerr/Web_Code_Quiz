@@ -1,26 +1,35 @@
 
-// import the score.js file
-import * as score from "./script.js";
+// Get the scores from local storage
+let highScoreList = document.getElementById("highscores");
+let clearScores = document.getElementById("clear");
 
-// call the event listener for the start button
-document.getElementById("start").addEventListener("click", score.startQuiz);
+function renderUsers() {
+let scores = JSON.parse(localStorage.getItem("score"));
 
-// call the event listener for the submit button
-document.getElementById("submit").addEventListener("click", score.submitScore);
+// Create an empty array to store the score objects
+let scoreArray = [];
 
-// event listener for the clear highscores button
-document.getElementById("clear").addEventListener("click", function(){
-    localStorage.removeItem("score");
-    location.reload();
-});
-
-// code to display the highscores
-let highscores = JSON.parse(localStorage.getItem("final-score"));
-let highscoresList = document.getElementById("highscores");
-for (let i = 0; i < highscores.length; i++) {
-    let newLi = document.createElement("li");
-    newLi.textContent = highscores[i].initial + ": " + highscores[i].score;
-    highscoresList.appendChild(newLi);
+// Loop through the scores and push them to the scoreArray
+for (let i = 0; i < scores.length; i++) {
+  scoreArray.push(scores[i]);
 }
 
+// Sort the scoreArray by score in descending order
+scoreArray.sort((a, b) => b.score - a.score);
 
+// Create a list element for each score
+scoreArray.forEach((scores) => {
+  let li = document.createElement("li");
+  li.textContent = `${scores.initial} - ${scores.score}`;
+  document.getElementById("highscores").appendChild(li);
+});
+
+}
+// Add event listener to clear highscores button
+clearScores.addEventListener("click", function () {
+  localStorage.clear();
+  highScoreList.innerHTML = [];
+});
+
+// Call the function to render the user data list.
+renderUsers();
