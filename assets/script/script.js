@@ -122,10 +122,10 @@ document.getElementById("submit").addEventListener("click", function(){
 
   let initials = document.getElementById("initials").value;
   let finalScore = document.getElementById("final-score").textContent;
-  let Userdata = JSON.parse(localStorage.getItem("score"));
+  let userData = JSON.parse(localStorage.getItem("score"));
 
-    if (Userdata === null) {
-      Userdata = [];
+    if (userData === null) {
+      userData = [];
     }
     let data = {
       initial : initials 
@@ -138,9 +138,9 @@ if (data.initial === "") {
   return;
 }
  
-Userdata.push(data);
+userData.push(data);
 //save the score to local storage
-localStorage.setItem("score", JSON.stringify(Userdata));
+localStorage.setItem("score", JSON.stringify(userData));
 // //redirect to highscores page
 window.location.href = "./highscores.html";
 });
